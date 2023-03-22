@@ -39,7 +39,7 @@ MSB               0                  LSB
                   0
                   0
                   0
-                  
+
                   0
                   0
                   1
@@ -50,3 +50,26 @@ Value:            |
 ```
 
 A **little endian** system will keep the number 2 in memory like this: `0100 0000`
+
+##
+
+![](/Pictures/Hayadaata.png)
+
+## WHAT IS PROTECTED MODE AND WHAT IS REAL MODE
+
+The difference between them is with the complexity of the access to the memory of an application and with how application memories are addressed.<br>
+In the CPU there are registers which are tiny buffers that keep memory to be used for operations of the CPU, there is a cluster of registers called the segment registers, they are responsible to keep addresses of data to be used by the CPU.
+
+For example the `Code Segment` register keeps the address of the beginning of the area in memory where the code of the current application is kept. The `Instruction Pointer` register is used to offset the `CS` register and this combination points to the next code instruction in memory that the CPU must execute. That was an explanation on how the cpu calculates the data addresses of the code of the application.
+
+**Real mode** is the cpu mode of operation in which the CPU uses real physical address. In real mode, the `Code Segment` register will point to a segment of memory in the _real memory_ that belongs to the context of the current program. Then, the `Instruction Pointer` register will offset it to the current intruction and that's how a CPU will execute the application in real mode.
+
+> Real Memory used to be the first 1M bytes in memory, today it just refers to the installed RAM installed in the motherboard.
+
+However, that is unsafe since that can lead to overwriting memory written in that _real memory_. To counter that, **protected mode** was introduced with intel's 286 microprocessor.<br>
+In it, instead of accessing the _real memory_ directly, the `CS` will point to a segment descriptor. It is a data structure that describes the start, length and access rights of a segment. The segment descriptors are kept in two large tables, called the `Global Descriptor Table` and `Local Descriptor Table`. Global contains the segment descriptor of all applications in it, while the local keeps only the current application's segment descriptors in it.
+
+Afterwards with the introduction of the 386 microprocessor things changed again. **Paging** was added, using paging and a slew of other registers invisible to programs, programs were able to run in their own "confined" memory space. The program's memory is kept in structures called "_pages_" that are fixed in size and spread out in the _real memory_, then those pages are all mapped to one memory space that belongs to the program, no program can access other program's pages. This grants programs their "own" "seperated" memory space which they are free to operate in using their own virtual address ranges that are translated to the _real memory addresses_ where the data resides.
+
+In **real mode** the programs have access to _real memory_ addresses.<br>
+In **protected mode** the programs have virtual addresses which are translate using pages, page tables and page directories.
