@@ -1,4 +1,10 @@
-# MOST SIGNIFICANT BIT
+# ANSWER SHEET
+
+Shieeeeeet, if my memory serves me right. Here are some answers.
+
+![](/Pictures/Hayadaata.png)
+
+## MOST SIGNIFICANT BIT
 
 Let's look at a byte of information. `0 0 0 0 0 0 0 0`, This byte houses 8 bits, all of them turned off.<br>
 The value of this byte is 0.
@@ -15,3 +21,5 @@ The most significant bit is the bit in a binary number that holds the largest va
 Let's get back to that supposedly 2 binary number from before. `00000010` if the MSB is the left-most bit, that would represent the largest number 2^7 (128). The right-most bit would represent 2^0 (1) then the bit that is right side to that one will represent 2. However if the right-most bit is the MSB, then the one right side to that will represent one power lower, so that binary number can be interperted as 2^6 which is 64 as well.
 
 It's all depending on the MSB placement.
+
+## 
