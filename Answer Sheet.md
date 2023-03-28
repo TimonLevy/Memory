@@ -4,13 +4,12 @@ Shieeeeeet, if my memory serves me right. Here are some answers.
 
 ![](/Pictures/Hayadaata.png)
 
+<br><br>
+
 ## MOST SIGNIFICANT BIT
 
-Let's look at a byte of information. `0 0 0 0 0 0 0 0`, This byte houses 8 bits, all of them turned off.<br>
-The value of this byte is 0.
-
-Now, let's look at this byte. `0 0 0 0 0 0 1 0`, it might look like the value of this byte is obviously 2. <br>
-But is it?
+Let's look at this byte. `0 0 0 0 0 0 1 0`, it might look like the value of this byte is obviously 2. <br>
+_But is it?_
 
 Well, to calculate the value of this byte is simply to take each lit bit and calculate it's power of two using it's index. But how do we know what the index of the bit is? what do we use as a reference?
 
@@ -51,11 +50,16 @@ Value:            |
 
 A **little endian** system will keep the number 2 in memory like this: `0100 0000`
 
+<br><br>
+
 ##
 
 ![](/Pictures/Hayadaata.png)
 
-## WHAT IS PROTECTED MODE AND WHAT IS REAL MODE
+
+<br><br>
+
+## WHAT IS PROTEC MODE AND WHAT IS REAL MODE
 
 The difference between them is with the complexity of the access to the memory of an application and with how application memories are addressed.<br>
 In the CPU there are registers which are tiny buffers that keep memory to be used for operations of the CPU, there is a cluster of registers called the segment registers, they are responsible to keep addresses of data to be used by the CPU.
@@ -71,5 +75,51 @@ In it, instead of accessing the _real memory_ directly, the `CS` will point to a
 
 Afterwards with the introduction of the 386 microprocessor things changed again. **Paging** was added, using paging and a slew of other registers invisible to programs, programs were able to run in their own "confined" memory space. The program's memory is kept in structures called "_pages_" that are fixed in size and spread out in the _real memory_, then those pages are all mapped to one memory space that belongs to the program, no program can access other program's pages. This grants programs their "own" "seperated" memory space which they are free to operate in using their own virtual address ranges that are translated to the _real memory addresses_ where the data resides.
 
+![](/Pictures/Protected_Mode_Meme.jpg)
+  
+**Privilege Rings** is another feature of protected mode where _operating system processes_ and _user processes_ are categorized into 4 privilege level ring from 0 - 3. 0 is the most priveleged level where are process can run, thus OS and driver processes run in those rings and 3 is where user processes will run. These rings exist in order to deny high privilege ring processes from accessing data, call gates or executing instructions which may jeopardize the integrity of the system.
+
 In **real mode** the programs have access to _real memory_ addresses.<br>
 In **protected mode** the programs have virtual addresses which are translate using pages, page tables and page directories.
+
+<br>
+
+## REGISTERS
+
+Registers are memory caches inside the CPU that it uses to perform it's calculations and some more operations. Registers can be accessed in 64, 32, 16 and 8 bit modes where each mode of access is given a designated later: R (Register, 64 bit), E (Extended, 32 bit) and more. There are many types of registers:
+
+#### **General Purpose Registers (GPR)**
+
+> These are registers used for general purposes, here are some of them:
+> * **AX** - Accumulator register. Used in arithmatic operations.
+> * **CX** - Counter register. Used in shift instructions and counting iterations when doing loops.
+> * **DX** - Used in arithmetic operations, like store remainder when doing division.
+
+#### **Segment Registers**
+
+> There are 6 of these:
+> * **SS** - Stack Segment, pointer to the stack.
+> * **CS** - Code Degment, pointer to the code.
+> * etc..
+
+#### **EFLAGS**
+
+> This is a 32 bit register where each bit is a different flag used for and by operations, here are some examples of flags:
+> * **ZF** - Zero Flag, is set if the result of an operation is zero. Used in if statements.
+> * **SF** - Sign Flag, set if the result of an operation is negative.
+> * **OF** - Overflow Flag, Set if the operation results in a number that is too large to contain.
+
+#### Stupid Registers
+
+> These are just some stupid regiters that have nothing in their brains, they are so stupid:
+> ![](https://media.tenor.com/9RCIDZjkhBsAAAAC/hamster-meme.gif)
+> ![](https://i.kym-cdn.com/news_feeds/icons/mobile/000/035/373/c98.jpg)
+
+My favorite is the staring hamster, all he does is stare. There are **zero** thoughts going through his head right now. He is simply living the moment.
+
+![](/Pictures/Oger_With_No_Brain.png)
+
+<br><br>
+
+#### Interrupt Descriptor Table
+
