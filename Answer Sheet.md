@@ -121,5 +121,13 @@ My favorite is the staring hamster, all he does is stare. There are **zero** tho
 
 <br><br>
 
+#### IDO ZAIT VS. AMY FLIEGELMAN OLLI
+
+Ido Zait (former team member, 2020 - 2021) wanted to perform a `פולסא דנורא` targeting Amy (Executive Vice President and General Counsel of VMware). A holy ritual meant to shorten one's lifespan and mark him to death in the eyes of god.
+
+To this day the ritual has not shown it's affects but it is not entirely known that the ritual did not have one.
+
+<br><br>
+
 #### Interrupt Descriptor Table
 
