@@ -6,7 +6,7 @@ Shieeeeeet, if my memory serves me right. Here are some answers.
 
 <br><br>
 
-## MOST SIGNIFICANT BIT
+## 01. MOST SIGNIFICANT BIT
 
 Let's look at this byte. `0 0 0 0 0 0 1 0`, it might look like the value of this byte is obviously 2. <br>
 _But is it?_
@@ -21,7 +21,7 @@ Let's get back to that supposedly 2 binary number from before. `0000 0010` if th
 
 It's all depending on the MSB placement.
 
-## BIG ENDIAN VS LITTLE ENDIAN
+## 02. BIG ENDIAN VS LITTLE ENDIAN
 
 This relates the the prior answer, systems need to know where the MSB and LSB (least significant bit) are located in their binary structures. To answer that we have endianness.
 
@@ -59,7 +59,7 @@ A **little endian** system will keep the number 2 in memory like this: `0100 000
 
 <br><br>
 
-## WHAT IS PROTEC MODE AND WHAT IS REAL MODE
+## 04. WHAT IS PROTEC MODE AND WHAT IS REAL MODE
 
 The difference between them is with the complexity of the access to the memory of an application and with how application memories are addressed.<br>
 In the CPU there are registers which are tiny buffers that keep memory to be used for operations of the CPU, there is a cluster of registers called the segment registers, they are responsible to keep addresses of data to be used by the CPU.
@@ -84,7 +84,7 @@ In **protected mode** the programs have virtual addresses which are translate us
 
 <br>
 
-## REGISTERS
+## 05. REGISTERS
 
 Registers are memory caches inside the CPU that it uses to perform it's calculations and some more operations. Registers can be accessed in 64, 32, 16 and 8 bit modes where each mode of access is given a designated later: R (Register, 64 bit), E (Extended, 32 bit) and more. There are many types of registers:
 
@@ -121,7 +121,7 @@ My favorite is the staring hamster, all he does is stare. There are **zero** tho
 
 <br><br>
 
-#### IDO ZAIT VS. AMY FLIEGELMAN OLLI
+## 06. IDO ZAIT VS. AMY FLIEGELMAN OLLI
 
 Ido Zait (former team member, 2020 - 2021) wanted to perform a `פולסא דנורא` targeting Amy (Executive Vice President and General Counsel of VMware). A holy ritual meant to shorten one's lifespan and mark him to death in the eyes of god.
 
@@ -129,5 +129,78 @@ To this day the ritual has not shown it's affects but it is not entirely known t
 
 <br><br>
 
-#### Interrupt Descriptor Table
+## 07. TRANSLATING VIRTUAL ADDRESSES TO PHYSICAL ADDRESSES
 
+Let's start off by establishing a few things, the page size that many operating systems like to use is _4KB_ (2 ^ 12 = 4096). That \*bit\* will be useful later, baddom tsssss.
+
+Virtual addresses are logical addresses used by proccesses running in protected mode. They do not point directly at a location in physical memory but there is a simple way to translate them. The secret is in the virtual address itself, the address is made up of different segments that help translate the address.
+
+Modern operating systems use the PML4 scheme for translating addresses so I will explain that one, on a 64 bit computer, meaning 64 bit addresses (indexing bits from 0 to 63).
+
+![](/Pictures/PML4.png)
+
+The 12 last bits of the virtual address are used to offset from the base address of the page where the data is stored. Using 12 bits we can address 4096 different bytes, which matches the page sizes. We are then able to address the pages themselves using the 52 other bits, which gives up the possibility to address 4,503,599,627,370,496 different bytes (4 petabytes). But we wont be needing all of that, so we will dismiss the first 16 bits of that and reserve them for future use. Using 36 bits we are then able to address 68,719,476,736 different bytes (68 Terabytes).
+
+Then, the process starts, there is a register in the CPU called the CR3 which keeps the address of the base of the PML4 (Page Mapping Level 4) entry stack base.<br>
+We will use the first 9 (after the unused 16) bits as offset from the base to fine the base address of the correct PML4 entry.
+
+A PML4 entry contains the base address of the PDPT (Page Directory Pointer) Entry stack base.<br>
+We will use the next 9 bits to offset from the base of the PML4 entry to find the base address of the correct PDPT entry.
+
+A PDPT entry contains the base address of the Page Directory Entry stack base.<br>
+We will use the next 9 bits to offset from the base of the PDPT entry to find the base address of the correct Directory entry.
+
+A Page Directory Entry contains the Page Table Entry stack base.<br>
+We will use the next 9 bits to offset from the base of the Directory entry to find the base address of the correct page.
+
+And finally, a Page Table contains the base address of the page in memory.
+We will use the 12 remaining bits to offset from the base of the page address to fine the matching Physical address.
+
+<br><br>
+
+## 09. INTERRUPT DESCRIPTOR TABLE
+
+The Interrupt Descriptor Table (IDT) is a table where the Interrupt Service Routines (ISR) are located, entries used as pointers to funtions that should be executed once the CPU reaches an interrupt. IDT entries are called gates, other than Interrupt gates it can contain Task gates and Trap gates.
+
+### **TABLE**
+The base address of the IDT is stored in the Interrupt Descriptor Table Register (IDTR). Entries in the table are _8 bytes_ long in x32 architectures and _16 bytes_ long in x64. Each entry has a few fields that are important to note:
+
+**Offset**
+> A 32/64 bit value that represents the address of the entry point of the ISR.
+
+**Gate Type**
+> A 4 bit field that contains the type of the gate described in the entry. There are 3 types of gates: Interrupt, Task and Trap.
+
+**DPL**
+> A 2 bit value defining the CPU privilege Level required to access this interrupt entry via the INT CPU intruction.
+
+### **GATE TYPES**
+There are 2 types of gates:
+
+**Trap Gate**
+> This gate is used to handle interruptions that occur when there is bad code.
+
+**Interrupt Gate**
+> This gate is used to handle any other kind of interruption.
+
+**Task Gate**
+> A x32 architechture specific gate, used for hardware task switching. Since it is slow and not optimized for modern gear it is not really used anymore and even dropped for the x64 arcitechture.
+
+<br><br>
+
+## 10. PAGE FILE
+
+The pagefile is a file in the hard drive used to store pages that are not current in use by the operating system. The CPU switches pages in and out of memory and stores them in the pagefile by need. The page file in the Windows OS is stored in the path `C:\pagefile.sys`.
+
+The pagefile allows an operating system to store more pages than the DRAM memory allows and keep only the relevant pages in memory while the others are in the disk (or Flash memory). The page file is allowed a size of up to 4 times the amount of phsyical memory you computer has and down to 1.5 times the amount of memory.
+
+Page file are useful in a few cases.
+
+1. Applications running on the system are memory heavy
+> The OS can then store idle pages in the pagefile and free up space for other applications.
+
+2. Sudden memory usage spike
+> Same as the last one, the system wont crash because it can simply free up some more space.
+
+3. System crash dump
+> The pagefile can be used as a crash dump backup.
