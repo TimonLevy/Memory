@@ -280,6 +280,13 @@ There are a few pointers that the system uses to keep track of the stack:
 
 <br><br>
 
+##
+
+![](/Pictures/Hayadaata.png)
+
+
+<br><br>
+
 ## MEMORY STRUCTURE: HEAP
 
 The heap is a structure in memory used for _dynamic memory allocation_, due to this fact it is slower than using the stack. Heap memory is a more permanent solution for programmers to store data in, memory from the heap can only be allocated by the programmer and will not be deallocated until explicitly freed. This is in **contrast** to Stack memory, where entries are automaticly pushed and popped. This can bring to the case of **memory leak**, when an application has not deallocated the heap memory and lost all pointers to it. This chunk of allocated memory will then be allocated until the program is terminated. This is no biggie for small programs, but large programs which run for days can slow down from memory leakage and even run out of memory and crash. Though this memory is not allocated forever, at program termination the operating system deallocates all the non-deallocated information using garbage collection.
