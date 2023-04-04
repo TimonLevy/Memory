@@ -204,3 +204,109 @@ Page file are useful in a few cases.
 
 3. System crash dump
 > The pagefile can be used as a crash dump backup.
+
+<br><br>
+
+## 11. MEMORY STRUCTURE: STACK
+
+The stack is a data structure in memory used to store information for later use by the processor, a memory buffer that serves as a FILO (First-In-Last-Out) buffer. The stack is often used to store local variables of functions. Stacks give us the option to manage memory efficiently. Stacks begin in an address that is fairly high in physical memory and scale down with each variable that is pushed into them.
+
+When a function is entered (including the `Main()` function) a new stack frame is created and each variable declared in that function will get _pushed_ into the stack.<br>
+Example..
+
+```C
+int main()
+{
+    int a = 5;
+    int b = 6;
+    
+    int sum = add(a, b);
+    return 0;
+}
+
+int add(i1, i2)
+{
+    int c = a + b;
+    return c;
+}
+```
+
+We enter the `main()` function, so we will create a stack frame for it and push the variable `a`. (columns with an asterisk are for expalnation sake and not really kept in the stack, only the address and value are truly saved)
+
+| frame info*    	| address 	| name* 	| value     |
+|---------------	|---------	|-------	|-------    |
+| Main locals    	| 1000    	| a     	| 5         |
+| .              	|         	|       	|           |
+| .              	|         	|       	|           |
+| .              	|         	|       	|           |
+| .              	|         	|       	|           |
+| .              	|         	|       	|           |
+| .              	|         	|       	|           |
+
+Then we push the variable `b` and enter the function `add(a, b)` in the 4th line. When entering another function we create a new frame, first thing we push into a frame will be the parameters, then the return address to the code of the routine that called this function and lastly the locals of this function.
+
+| frame info*        	| address 	| name*          	| value      	|
+|--------------------	|---------	|----------------	|------------	|
+| Main locals        	| 1000    	| a              	| 5          	|
+|                    	| 996     	| b              	| 6          	|
+| Add Parameters     	| 992     	| i1             	| 5          	|
+|                    	| 988     	| i2             	| 6          	|
+| Add Return address 	| 984     	| Return Address 	| 0x0007A722 	|
+| Add Locals         	| 980     	| c              	| 11         	|
+| .                   	|         	|                	|            	|
+
+After we are down with the function Add we deallocate it's memory and return the value of `c` to `main()`. Then we push `d`.
+
+| frame info*        	| address 	| name* 	| value 	|
+|--------------------	|---------	|-------	|-------	|
+| Main locals        	| 1000    	| a     	| 5     	|
+| .                   	| 996     	| b     	| 6     	|
+| .                   	| 992     	| d     	| 11    	|
+| .                   	|         	|       	|       	|
+| .                   	|         	|       	|       	|
+| .                    	|         	|       	|       	|
+| .                    	|         	|       	|       	|
+
+<br>
+
+As seen in the example, when variables are declared they are automatically pushed into the stack and automatically popped out to be used or when the function exits. This makes it perfect for temporary data, like variables, arguments, parameters and such.<br><br>
+There are a few pointers that the system uses to keep track of the stack:
+
+**Stack Pointer**
+> Points to the current top of the stack, value in the stack can be refrenced by offsetting this value. This value is kept in a register called the **[ESP] Stack Register** and updated each time a value is pushed and popped into or from the stack.
+
+**Frame Pointer**
+> A copy of the Stack pointer right after a new frame is created, after the parmeters and return address are pushed. By virtue, this keeps the base address of the current frame or call stack. This value is saved in the **[EBP] Stack Base Register**.
+
+<br><br>
+
+## MEMORY STRUCTURE: HEAP
+
+The heap is a structure in memory used for _dynamic memory allocation_, due to this fact it is slower than using the stack. Heap memory is a more permanent solution for programmers to store data in, memory from the heap can only be allocated by the programmer and will not be deallocated until explicitly freed. This is in **contrast** to Stack memory, where entries are automaticly pushed and popped. This can bring to the case of **memory leak**, when an application has not deallocated the heap memory and lost all pointers to it. This chunk of allocated memory will then be allocated until the program is terminated. This is no biggie for small programs, but large programs which run for days can slow down from memory leakage and even run out of memory and crash. Though this memory is not allocated forever, at program termination the operating system deallocates all the non-deallocated information using garbage collection.
+
+The heap has advantages:
+* **Lifetime** - Memory is not automatically deallocated. Programmers have control over the allocation and deallocation of memory.
+* **Size** - The programmer can control the ammoubnt of memory they want to allocate.
+
+And disatvantages:
+* **Management** - Heap memory needs to be managed, to make sure no memory leaks occure.
+* **Leaks** - Poor management leads to leaks, which can lead to program crashes.
+
+#### Allocation & Deallocation
+
+As we discussed, memory is allocated manually by the developer. In Java and C++ it will be witht he keyword `new`, in C `malloc, calloc and realloc`. The allocation itself happens when the program sends a request for a chunk of memory from the heap memory. The memory is then returned in the form of a pointer to the address of the memory in the heap, the block of memory will be contiguous. 
+
+The heap is a segment in memory bound by a `brk` pointer which tells it where the segment ends and it's base is depicted by the OS and can be extracted at runtime. The OS has no real understanding of the heap memory and thus there is no register to store the addresses of heap memory. The `brk` pointer can be changed using functions like `brk` and `sbrk`.
+
+Memory is deallocated from the heap using the `free` and `zeromemory` functions. Applications should not write to the heap memory using pointers to memory that was already freed since doing that will cause undifined behavior.
+
+#### Problems with Allocation
+
+**Fragmentation**
+
+Heap memory is allocated contiguous and whole which begs the question what to do when there is enough overall free heap memory but not enough contiguous free heap memory? This issue is called fragmentation. There are two types of memory fragmantation.
+1. External fragmantation  <br>
+Which is what we talked about
+<br>
+2. Internal Fragmantation  <br>
+This happens when excess memory is allocated, meaning a chunk of memory is allocated but it is not entirely used. This will cause a waste of heap memory.
