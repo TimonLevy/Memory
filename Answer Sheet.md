@@ -56,7 +56,9 @@ A **little endian** system will keep the number 2 in memory like this: `0100 000
 
 ![](/Pictures/Hayadaata.png)
 
-
+```
+- Repeating the question isn't answering it, but i'll let it slide.
+```
 <br><br>
 
 ## 04. WHAT IS PROTEC MODE AND WHAT IS REAL MODE
