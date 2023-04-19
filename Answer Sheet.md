@@ -91,7 +91,7 @@ In **protected mode** the programs have virtual addresses which are translate us
 
 ## 05. REGISTERS
 
-Registers are memory caches inside the CPU that it uses to perform it's calculations and some more operations. Registers can be accessed in 64, 32, 16 and 8 bit modes where each mode of access is given a designated later: R (Register, 64 bit), E (Extended, 32 bit) and more. There are many types of registers:
+Registers are memory caches inside the CPU that it uses to perform it's calculations and some more operations. Registers can be accessed in 64, 32, 16 and 8 bit modes where each mode of access is given a designated letter: R (Register, 64 bit), E (Extended, 32 bit) and more. There are many types of registers:
 
 #### **General Purpose Registers (GPR)**
 
