@@ -11,7 +11,7 @@ Shieeeeeet, if my memory serves me right. Here are some answers.
 Let's look at this byte. `0 0 0 0 0 0 1 0`, it might look like the value of this byte is obviously 2. <br>
 _But is it?_
 
-Well, to calculate the value of this byte is simply to take each lit bit and calculate it's power of two using it's index. But how do we know what the index of the bit is? what do we use as a reference?
+Well, to calculate the value of this byte is simply to take each lit bit and calculate it's power of two using it's index. But how do we know what the index of the bit is? What do we use as a reference?
 
 Intro, the **most significant bit**.
 
@@ -23,7 +23,7 @@ It's all depending on the MSB placement.
 
 ## 02. BIG ENDIAN VS LITTLE ENDIAN
 
-This relates the the prior answer, systems need to know where the MSB and LSB (least significant bit) are located in their binary structures. To answer that we have endianness.
+This relates to the prior answer, systems need to know where the MSB and LSB (least significant bit) are located in their binary structures. To answer that we have endianness.
 
 > A **Big-Endian** system will place it's MSB at the beginning of a binary structure, at the smallest address and the LSB at the end of the structure. it will also transmit and recieve the MSB first.
 
