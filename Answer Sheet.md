@@ -84,7 +84,7 @@ Afterwards with the introduction of the 386 microprocessor things changed again.
 In **real mode** the programs have access to _real memory_ addresses.<br>
 In **protected mode** the programs have virtual addresses which are translate using pages, page tables and page directories.
 
-```
+```diff
 + Very thorough answer, great job! 
 ```
 <br>
@@ -104,7 +104,7 @@ Registers are memory caches inside the CPU that it uses to perform it's calculat
 
 > There are 6 of these:
 > * **SS** - Stack Segment, pointer to the stack.
-> * **CS** - Code Degment, pointer to the code.
+> * **CS** - Code Segment, pointer to the code.
 > * etc..
 
 #### **EFLAGS**
