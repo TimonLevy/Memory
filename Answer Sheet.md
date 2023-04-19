@@ -124,6 +124,9 @@ My favorite is the staring hamster, all he does is stare. There are **zero** tho
 
 ![](/Pictures/Oger_With_No_Brain.png)
 
+```diff
++ Positively magnificent. 
+```
 <br><br>
 
 ## 06. IDO ZAIT VS. AMY FLIEGELMAN OLLI
@@ -132,6 +135,9 @@ Ido Zait (former team member, 2020 - 2021) wanted to perform a `פולסא דנ�
 
 To this day the ritual has not shown it's affects but it is not entirely known that the ritual did not have one.
 
+```diff
++ You did your research, props.
+```
 <br><br>
 
 ## 07. TRANSLATING VIRTUAL ADDRESSES TO PHYSICAL ADDRESSES
