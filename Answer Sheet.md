@@ -84,6 +84,9 @@ Afterwards with the introduction of the 386 microprocessor things changed again.
 In **real mode** the programs have access to _real memory_ addresses.<br>
 In **protected mode** the programs have virtual addresses which are translate using pages, page tables and page directories.
 
+```
++ Very thorough answer, great job! 
+```
 <br>
 
 ## 05. REGISTERS
