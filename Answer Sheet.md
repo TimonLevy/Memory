@@ -338,3 +338,7 @@ Which is what we talked about
 <br>
 2. Internal Fragmantation  <br>
 This happens when excess memory is allocated, meaning a chunk of memory is allocated but it is not entirely used. This will cause a waste of heap memory.
+
+```diff
+- You seem to be missing a question here. 
+```
