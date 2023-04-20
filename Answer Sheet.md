@@ -198,7 +198,9 @@ There are 2 types of gates:
 > A x32 architechture specific gate, used for hardware task switching. Since it is slow and not optimized for modern gear it is not really used anymore and even dropped for the x64 arcitechture.
 
 <br><br>
-
+```diff
+- You have good knowledge of how the IDT is built and you understand it's parts, but I still don't get what exactly happens when an interrupt happens. Give me a flow chart/event explanation.
+```
 ## 10. PAGE FILE
 
 The pagefile is a file in the hard drive used to store pages that are not current in use by the operating system. The CPU switches pages in and out of memory and stores them in the pagefile by need. The page file in the Windows OS is stored in the path `C:\pagefile.sys`.
@@ -222,6 +224,9 @@ Page file are useful in a few cases.
 
 The stack is a data structure in memory used to store information for later use by the processor, a memory buffer that serves as a FILO (First-In-Last-Out) buffer. The stack is often used to store local variables of functions. Stacks give us the option to manage memory efficiently. Stacks begin in an address that is fairly high in physical memory and scale down with each variable that is pushed into them.
 
+```diff
+- No such thing as "FILO". Google it. It's not what you think.  
+```
 When a function is entered (including the `Main()` function) a new stack frame is created and each variable declared in that function will get _pushed_ into the stack.<br>
 Example..
 
@@ -241,7 +246,9 @@ int add(i1, i2)
     return c;
 }
 ```
-
+```diff
+- This isn't really a "memory" issue, but your code is incorrect. The "add" function doesn't have access to "a" and "b".
+```
 We enter the `main()` function, so we will create a stack frame for it and push the variable `a`. (columns with an asterisk are for expalnation sake and not really kept in the stack, only the address and value are truly saved)
 
 | frame info*    	| address 	| name* 	| value     |
@@ -266,7 +273,10 @@ Then we push the variable `b` and enter the function `add(a, b)` in the 4th line
 | Add Locals         	| 980     	| c              	| 11         	|
 | .                   	|         	|                	|            	|
 
-After we are down with the function Add we deallocate it's memory and return the value of `c` to `main()`. Then we push `d`.
+```diff
+- How does the code know to give i1 the value of a? 
+```
+After we are done with the function and we deallocate it's memory and return the value of `c` to `main()`. Then we push `d`.
 
 | frame info*        	| address 	| name* 	| value 	|
 |--------------------	|---------	|-------	|-------	|
@@ -304,7 +314,7 @@ The heap is a structure in memory used for _dynamic memory allocation_, due to t
 
 The heap has advantages:
 * **Lifetime** - Memory is not automatically deallocated. Programmers have control over the allocation and deallocation of memory.
-* **Size** - The programmer can control the ammoubnt of memory they want to allocate.
+* **Size** - The programmer can control the amount of memory they want to allocate.
 
 And disatvantages:
 * **Management** - Heap memory needs to be managed, to make sure no memory leaks occure.
@@ -312,11 +322,11 @@ And disatvantages:
 
 #### Allocation & Deallocation
 
-As we discussed, memory is allocated manually by the developer. In Java and C++ it will be witht he keyword `new`, in C `malloc, calloc and realloc`. The allocation itself happens when the program sends a request for a chunk of memory from the heap memory. The memory is then returned in the form of a pointer to the address of the memory in the heap, the block of memory will be contiguous. 
+As we discussed, memory is allocated manually by the developer. In Java and C++ it will be with the keyword `new`, in C `malloc, calloc and realloc`. The allocation itself happens when the program sends a request for a chunk of memory from the heap memory. The memory is then returned in the form of a pointer to the address of the memory in the heap, the block of memory will be contiguous. 
 
 The heap is a segment in memory bound by a `brk` pointer which tells it where the segment ends and it's base is depicted by the OS and can be extracted at runtime. The OS has no real understanding of the heap memory and thus there is no register to store the addresses of heap memory. The `brk` pointer can be changed using functions like `brk` and `sbrk`.
 
-Memory is deallocated from the heap using the `free` and `zeromemory` functions. Applications should not write to the heap memory using pointers to memory that was already freed since doing that will cause undifined behavior.
+Memory is deallocated from the heap using the `free` and `zeromemory` functions. Applications should not write to the heap memory using pointers to memory that were already freed since doing that will cause undifined behavior.
 
 #### Problems with Allocation
 
