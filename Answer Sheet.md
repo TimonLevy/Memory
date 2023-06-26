@@ -58,6 +58,8 @@ A **little endian** system will keep the number 2 in memory like this: `0100 000
 
 ```diff
 - Repeating the question isn't answering it, but i'll let it slide.
++ Repeating what?
++ Did you know that olives cause memory issues?
 ```
 <br><br>
 
