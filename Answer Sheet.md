@@ -176,7 +176,7 @@ We will use the 12 remaining bits to offset from the base of the page address to
 The Interrupt Descriptor Table (IDT) is a table where the Interrupt Service Routines (ISR) are located, entries used as pointers to funtions that should be executed once the CPU reaches an interrupt. IDT entries are called gates, other than Interrupt gates it can contain Task gates and Trap gates.
 
 ### **TABLE**
-The base address of the IDT is stored in the Interrupt Descriptor Table Register (IDTR). Entries in the table are _8 bytes_ long in x32 architectures and _16 bytes_ long in x64. Each entry has a few fields that are important to note:
+The base address of the IDT and the amount of entries are stored in the Interrupt Descriptor Table Register (IDTR). Entries in the table are _8 bytes_ long in x32 architectures and _16 bytes_ long in x64. Each entry has a few fields that are important to note:
 
 **Offset**
 > A 32/64 bit value that represents the address of the entry point of the ISR.
@@ -184,11 +184,16 @@ The base address of the IDT is stored in the Interrupt Descriptor Table Register
 **Gate Type**
 > A 4 bit field that contains the type of the gate described in the entry. There are 3 types of gates: Interrupt, Task and Trap.
 
-**DPL**
+**DPL - Descriptor Privilege Level**
 > A 2 bit value defining the CPU privilege Level required to access this interrupt entry via the INT CPU intruction.
 
+**Segment Selector**
+> An pointer to the entry in the GDT/LDT (Global/Local Descriptor Table).
+
+![gate_descriptor](./Pictures/gate_descriptor[1].gif)
+
 ### **GATE TYPES**
-There are 2 types of gates:
+There are 3 types of gates:
 
 **Trap Gate**
 > This gate is used to handle interruptions that occur when there is bad code.
@@ -202,7 +207,21 @@ There are 2 types of gates:
 <br><br>
 ```diff
 - You have good knowledge of how the IDT is built and you understand it's parts, but I still don't get what exactly happens when an interrupt happens. Give me a flow chart/event explanation.
++ Alright.
 ```
+<br>
+
+Let's get into the nitty gritty. When the CPU makes an INT call, it will be accompanied with a number, that number will be used as an offset from the IDTR to select the right gate for the interruption.
+
+![IDTR](./Pictures/idtr[1].gif)
+
+Then, the entry will be found, privileges will be checked and the procedure's address will be found by:
+- offsetting the Segment Selector from the base of the GDT/LDT and getting the pointer to the base address of the segment containing the procedure.
+- offsetting the segment base using the offset field inside the IDT Entry to find the address of the procedure's code.<br>
+After this the CPU will simply run the procedure.
+
+![calling](./Pictures/calling[1].gif)
+
 ## 10. PAGE FILE
 
 The pagefile is a file in the hard drive used to store pages that are not current in use by the operating system. The CPU switches pages in and out of memory and stores them in the pagefile by need. The page file in the Windows OS is stored in the path `C:\pagefile.sys`.
