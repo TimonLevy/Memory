@@ -369,3 +369,11 @@ This happens when excess memory is allocated, meaning a chunk of memory is alloc
 ```diff
 - You seem to be missing a question here. 
 ```
+
+## GENESIS: THE FIRST "DUCK
+
+```"בראשית באר אלוהים את השמיים והארץ וכל צוואם."```
+
+That is what have have always been led to believe, but there is a fallacy in this sentence. Since we know that the first thing that was actually created was the duck.<br>
+It's true for every religion, and even for team Matrix! The first duck ever brought to team Matrix was Barvazi Momo, a great comrade that was conscripted by Taltul.<br>
+However he met a bitter end and was kidnapped by some pregnant woman, such a sad story. :sob:
