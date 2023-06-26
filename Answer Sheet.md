@@ -243,10 +243,11 @@ Page file are useful in a few cases.
 
 ## 11. MEMORY STRUCTURE: STACK
 
-The stack is a data structure in memory used to store information for later use by the processor, a memory buffer that serves as a FILO (First-In-Last-Out) buffer. The stack is often used to store local variables of functions. Stacks give us the option to manage memory efficiently. Stacks begin in an address that is fairly high in physical memory and scale down with each variable that is pushed into them.
+The stack is a data structure in memory used to store information for later use by the processor, a memory buffer that serves as a LIFO (Last-In-First-Out) buffer. The stack is used to store local variables of procedures & functions. Stacks give us the option to manage memory efficiently. Stacks begin in an address that is fairly high in physical memory and scale down with each variable that is pushed into them.
 
 ```diff
 - No such thing as "FILO". Google it. It's not what you think.  
++ LIFO :)
 ```
 When a function is entered (including the `Main()` function) a new stack frame is created and each variable declared in that function will get _pushed_ into the stack.<br>
 Example..
@@ -263,12 +264,13 @@ int main()
 
 int add(i1, i2)
 {
-    int c = a + b;
+    int c = i1 + i2;
     return c;
 }
 ```
 ```diff
 - This isn't really a "memory" issue, but your code is incorrect. The "add" function doesn't have access to "a" and "b".
++ Corrected :)
 ```
 We enter the `main()` function, so we will create a stack frame for it and push the variable `a`. (columns with an asterisk are for expalnation sake and not really kept in the stack, only the address and value are truly saved)
 
@@ -282,32 +284,36 @@ We enter the `main()` function, so we will create a stack frame for it and push 
 | .              	|         	|       	|           |
 | .              	|         	|       	|           |
 
-Then we push the variable `b` and enter the function `add(a, b)` in the 4th line. When entering another function we create a new frame, first thing we push into a frame will be the parameters, then the return address to the code of the routine that called this function and lastly the locals of this function.
+Then we push the variable `b` and enter the function `add(a, b)` in the 4th line.
+When entering another function we create a new frame, first we push the pointer to the frame of the calling function.<br>
+Then we allocate the needed space for the variables of this function.<br>
+Lastly the locals of this function are being pushed, those are passed from the calling function using registers.
 
 | frame info*        	| address 	| name*          	| value      	|
 |--------------------	|---------	|----------------	|------------	|
 | Main locals        	| 1000    	| a              	| 5          	|
 |                    	| 996     	| b              	| 6          	|
-| Add Parameters     	| 992     	| i1             	| 5          	|
-|                    	| 988     	| i2             	| 6          	|
-| Add Return address 	| 984     	| Return Address 	| 0x0007A722 	|
-| Add Locals         	| 980     	| c              	| 11         	|
-| .                   	|         	|                	|            	|
+| Add Return address 	| 988     	| Return Address 	| 0x00001000 	|
+| Add Parameters     	| 984     	| i1             	| 5          	|
+|                    	| 980     	| i2             	| 6          	|
+| Add Locals         	| 976     	| c              	| 11         	|
+| .                   |         	|                	|            	|
 
 ```diff
-- How does the code know to give i1 the value of a? 
+- How does the code know to give i1 the value of a?
++ Registers.
 ```
-After we are done with the function and we deallocate it's memory and return the value of `c` to `main()`. Then we push `d`.
+After we are done with the function and we deallocate it's memory and return the value of `c` to `main()`. Then we push `sum`.
 
 | frame info*        	| address 	| name* 	| value 	|
 |--------------------	|---------	|-------	|-------	|
 | Main locals        	| 1000    	| a     	| 5     	|
-| .                   	| 996     	| b     	| 6     	|
-| .                   	| 992     	| d     	| 11    	|
-| .                   	|         	|       	|       	|
-| .                   	|         	|       	|       	|
-| .                    	|         	|       	|       	|
-| .                    	|         	|       	|       	|
+| .                   | 996     	| b     	| 6     	|
+| .                   | 992     	| sum    	| 11    	|
+| .                   |         	|       	|       	|
+| .                   |         	|       	|       	|
+| .                   |         	|       	|       	|
+| .                   |         	|       	|       	|
 
 <br>
 
